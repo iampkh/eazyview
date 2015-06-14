@@ -218,7 +218,7 @@ public class EazyView extends View implements OnTouchListener{
 		int width =size.x;
 		int height = size.y;
 		EazyViewUtil.VIEW_RADIUS=(int) ((int)width*0.75);
-		Log.e("pkhtagPixel", "Width="+EazyViewUtil.VIEW_RADIUS+"  dispWidthh="+width);
+		Log.d(EazyViewUtil.TAG, "method(Constructor) Width="+EazyViewUtil.VIEW_RADIUS+"  dispWidthh="+width);
 	
 		mEazyViewClickListener=eazyViewClickListener;
 		mEnumCurrentQuodrant=QUODRANT.ONE;
@@ -278,7 +278,7 @@ public class EazyView extends View implements OnTouchListener{
 		
 		mViewSize=viewSize;
 		addViewToRespectiveQuodrants();
-		Log.e("pkhtagTest", "added views");
+		
 		manageQuodrants();
 	}
 	
@@ -408,7 +408,7 @@ public class EazyView extends View implements OnTouchListener{
 				break;
 			}
 		}
-		Log.e("pkhtagQuodrant", "mQuodrantdefOptionList="+mQuodrantDefaultOptionList.size());
+		Log.d(EazyViewUtil.TAG, "method:(AddviewtoREspecQuod)mQuodrantdefOptionList="+mQuodrantDefaultOptionList.size());
 		
 		
 		int defaultListSize=mQuodrantDefaultOptionList.size();
@@ -468,7 +468,7 @@ public class EazyView extends View implements OnTouchListener{
 		int Quodrant3Count=mQuodrantThreeOptionList.size();
 		int Quodrant4Count=mQuodrantFourOptionList.size();
 		
-		Log.e("pkhsizeCheck", "Quod1="+Quodrant1Count+"_Quodrant2Count="+Quodrant2Count+"_Quodrant3Count="+Quodrant3Count+"_Quodrant4Count="+Quodrant4Count);
+		Log.d(EazyViewUtil.TAG, "method:(manageQuod) Quod1="+Quodrant1Count+"_Quodrant2Count="+Quodrant2Count+"_Quodrant3Count="+Quodrant3Count+"_Quodrant4Count="+Quodrant4Count);
 		/**
 		 * Need to improvise the part of block for keeping same view in all the quordrant
 		 */
@@ -512,7 +512,7 @@ public class EazyView extends View implements OnTouchListener{
 		
 		super.onDraw(canvas);
 		
-		Log.e("pkhView", "LazyView onDraw  ");
+		Log.d(EazyViewUtil.TAG, "method:(onDraw) LazyView onDraw CurrentQuod="+mEnumCurrentQuodrant);
 		mQuodrantInfo=new HashMap<EazyViewUtil.QUODRANT, QuodGroup>();
 		drawBackGround(canvas);
 		/**
@@ -665,7 +665,7 @@ public class EazyView extends View implements OnTouchListener{
 	 */
 	private QuodGroup drawTopHolderViewForQuodrant(Canvas canvas,float quodrantAngle,ArrayList<OptionView> optionView,QuodGroup quodInfo) {
 		//int initialIndex=BOTTOM_VIEWHOLDER_COUNT;
-		QUODRANT quodName=optionView.get(0).getQuodrant();
+		QUODRANT quodName=mEnumCurrentQuodrant;
 		int topIndex=BOTTOM_VIEWHOLDER_COUNT;
 		int viewCount=optionView.size()-topIndex;
 		
@@ -769,7 +769,8 @@ public class EazyView extends View implements OnTouchListener{
 	 */
 	private void drawBottomHolderViewForQuodrant(Canvas canvas,float quodrantAngle,ArrayList<OptionView> optionViewList) {
 		
-		QUODRANT quodName=optionViewList.get(0).getQuodrant();
+		QUODRANT quodName=mEnumCurrentQuodrant;
+		Log.d(EazyViewUtil.TAG, "method:(drawBottomViewForQuod) Quod Name="+quodName);
 		/**
 		 * quodInfo uses for identifying the click listener for particular circle
 		 */
@@ -894,7 +895,7 @@ public class EazyView extends View implements OnTouchListener{
 			i=i+2;
 			bottomIndex+=1;
 		} while (i<(viewCount*2));  //dividing the one quodrant into 10 and drawing the circle(holder) in even line(1,3,5,7,9)
-	
+		quodInfo.setHolderDetails(viewDetailsList);
 		mQuodrantInfo.put(quodName, quodInfo);
 	}
 	
@@ -936,7 +937,7 @@ public class EazyView extends View implements OnTouchListener{
 	    int height = bm.getHeight();
 	    float scaleWidth = ((float) newWidth) /(float) width;
 	    float scaleHeight = ((float) newHeight) /(float) height;
-	    Log.e("pkhtagResize", "Bimp width="+newWidth+"_height="+newHeight+"__");
+	  //  Log.d(EazyViewUtil.TAG, "method:(getResizedBitm) Bimp width="+newWidth+"_height="+newHeight+"__");
 	    // create a matrix for the manipulation
 	    Matrix matrix = new Matrix();
 	    // resize the bit map
@@ -981,10 +982,10 @@ public class EazyView extends View implements OnTouchListener{
 	 * Updating the scrolling listener, moving a view to another quodrant
 	 */
 	private void movetoOtherPartOfView() {
-		Log.e("pkhtag", "MoveToview right="+isSwipeRight+"_isLeft="+isSwipeLeft);
+		//Log.d("pkhtag", "MoveToview right="+isSwipeRight+"_isLeft="+isSwipeLeft);
 		if(isSwipeRight){	
 			isSwipeLeft=false;
-			Log.e("pkhtags", "mMoeqod="+mMoveQuodAngle+"_mCurrentQuodrant+90="+(mCurrentQuodrant+QUADRANT_ANGLE));
+			//Log.d(EazyViewUtil.TAG, "method:(MovetoOtherPart) mMoveqodAng="+mMoveQuodAngle+"_mCurrentQuodrant+90="+(mCurrentQuodrant+QUADRANT_ANGLE));
 			//if right Swipe  movngQuodAngle is less than nxtQuad angle then increase moveQuoadAngle by (moveQuodangle+Speed)
 			if(mMoveQuodAngle<mCurrentQuodrant+QUADRANT_ANGLE){  
 				isTouchEnabled=false;
@@ -1024,11 +1025,13 @@ public class EazyView extends View implements OnTouchListener{
 				isSwipeRight=false;
 				mScrollStatus=ScrollStaus.SCROLLED;
 				
+				invalidate();
+				
 			}
 			
 		}else if(isSwipeLeft){
 			isSwipeRight=false;
-			Log.e("pkhtags", "mMoeqod="+mMoveQuodAngle+"_mCurrentQuodrant-90="+(mCurrentQuodrant-QUADRANT_ANGLE));
+			//Log.d(EazyViewUtil.TAG, "method:(MovetoOtherPart) swipeLeft mMoveqod="+mMoveQuodAngle+"_mCurrentQuodrant-90="+(mCurrentQuodrant-QUADRANT_ANGLE));
 			//if left Swipe  movngQuodAngle is greater than nxtQuad angle then decrease moveQuoadAngle by (moveQuodangle-Speed)
 			if(mMoveQuodAngle>mCurrentQuodrant-QUADRANT_ANGLE){
 				isTouchEnabled=false;
@@ -1066,9 +1069,11 @@ public class EazyView extends View implements OnTouchListener{
 				isTouchEnabled=true;
 				isSwipeLeft=false;
 				mScrollStatus=ScrollStaus.SCROLLED;
+				
+				invalidate();
 			}
 		}
-		Log.e("pkhtags", "mCurrentQoud="+mCurrentQuodrant);
+		Log.d(EazyViewUtil.TAG, "method:(movetootherpart) mCurrentQoud="+mCurrentQuodrant);
 		
 	}
 	
@@ -1088,7 +1093,7 @@ public class EazyView extends View implements OnTouchListener{
 			//calculating right or left swipe
 			startEventYCurrent=event.getY();
 			startEventXCurrent=event.getX();
-		//	Log.e("pkhtags", "TouchEvent  startEventYCurrent="+startEventYCurrent+"_startEventYPrev="+startEventYPrev+"_Diff="+(startEventYCurrent-startEventYPrev));
+		//	Log.d("pkhtags", "TouchEvent  startEventYCurrent="+startEventYCurrent+"_startEventYPrev="+startEventYPrev+"_Diff="+(startEventYCurrent-startEventYPrev));
 			if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev<startEventXCurrent)&& (startEventYPrev<startEventYCurrent)) && (startEventYCurrent-startEventYPrev)>70){
 				//swiperight
 				isSwipeRight=true;
@@ -1130,7 +1135,7 @@ public class EazyView extends View implements OnTouchListener{
 			movetoOtherPartOfView();
 			startEventYCurrent=0;
 			startEventYPrev=0;
-			Log.e("pkhtags", "TouchEvent  isSwipeRight="+isSwipeRight+"_isSwipeLeft="+isSwipeLeft);;
+			Log.d(EazyViewUtil.TAG, "touchEvent(UP) TouchEvent  isSwipeRight="+isSwipeRight+"_isSwipeLeft="+isSwipeLeft);;
 			
 			invalidate();
 			
@@ -1155,12 +1160,16 @@ public class EazyView extends View implements OnTouchListener{
 	 */
 	private void manipulateViewClick(float posX,float posY) {
 		if(!isSwipeLeft && !isSwipeRight && isTouchEnabled){
+			Log.d(EazyViewUtil.TAG, "method(manipulateClick) GetCurrentQuodrant="+mEnumCurrentQuodrant);
 			QuodGroup quodGroup=mQuodrantInfo.get(mEnumCurrentQuodrant);
 			ArrayList<ViewHolderDetail> quodView=null;
 			int quodViewSize=0;
 			if(quodGroup!=null){
 			 quodView=quodGroup.getHolderDetails();
-			 quodViewSize=quodView.size();
+			 if(quodView!=null){
+				 quodViewSize=quodView.size();
+			 }
+			 
 			}
 			
 			if(quodView!=null && quodViewSize>0){

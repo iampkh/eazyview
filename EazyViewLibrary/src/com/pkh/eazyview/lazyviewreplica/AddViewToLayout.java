@@ -1,10 +1,16 @@
 package com.pkh.eazyview.lazyviewreplica;
 
+import com.pkh.eazyview.util.EazyViewUtil;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -52,7 +58,7 @@ public class AddViewToLayout {
 	}
 	
 	@SuppressLint("NewApi")
-	private View addAButton(Context context) {
+	private View addAButton(final Context context) {
 		
 		//mLaucherBtn.setText("Iam a samplet text");
 
@@ -75,6 +81,10 @@ public class AddViewToLayout {
 				if(mEazyView.getVisibility()==ViewGroup.GONE){
 					mEazyView.openView();
 					mLaucherBtn.setBackgroundResource(closeDrawable);
+					int orientation=context.getResources().getConfiguration().orientation;
+					
+						EazyViewUtil.VIEW_RADIUS=calculateRadius(orientation);
+					
 				//	mLaucherBtn.setRotation(225);
 				}else{
 					mEazyView.CloseView();
@@ -90,6 +100,26 @@ public class AddViewToLayout {
 		return mLaucherBtn;
 	}
 	
+	private int calculateRadius(int Orientation) {
+		WindowManager windowManager = (WindowManager) mContext
+                .getSystemService(Context.WINDOW_SERVICE);
+		Display display =windowManager.getDefaultDisplay();
+		Point size = EazyView.getDisplaySize(display);
+		
+		EazyViewUtil.WINDOW_HEIGHT=size.y;
+		EazyViewUtil.WINDOW_WIDTH=size.x;
+		
+		int width =size.x;
+		int height = size.y;
+		
+		if(Orientation==Configuration.ORIENTATION_LANDSCAPE){
+			return (int) ((int)height*0.75);
+		}else if(Orientation==Configuration.ORIENTATION_PORTRAIT){
+			return (int) ((int)width*0.75);
+		}
+		
+		return (int) ((int)width*0.75);
+	}
 	
 
 }

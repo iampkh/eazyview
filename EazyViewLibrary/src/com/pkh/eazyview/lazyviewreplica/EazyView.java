@@ -16,6 +16,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.os.Build;
+import android.os.Parcelable;
 import android.text.AndroidCharacter;
 import android.util.Log;
 import android.view.Display;
@@ -191,7 +192,7 @@ public class EazyView extends View implements OnTouchListener{
 	//-------------------------------------User usage api--------------------------------
 	
 	
-	private static Point getDisplaySize(final Display display) {
+	public static Point getDisplaySize(final Display display) {
 	    final Point point = new Point();
 	    try {
 	        display.getSize(point);
@@ -1192,6 +1193,18 @@ public class EazyView extends View implements OnTouchListener{
 		}
 
 	}
+	
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		Log.e(EazyViewUtil.TAG, "onSaveInstance is called");
+		return super.onSaveInstanceState();
+	}
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		Log.e(EazyViewUtil.TAG, "onRestoreInstance is called");
+		super.onRestoreInstanceState(state);
+	}
+	
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub

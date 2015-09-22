@@ -3,6 +3,7 @@ package com.pkh.eazyview.lazyviewreplica;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.animation.RectEvaluator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
 import android.os.Parcelable;
@@ -183,6 +185,7 @@ public class EazyView extends View implements OnTouchListener{
 	 */
 	private int openBtnDrawableId=android.R.drawable.btn_star_big_on;
 	private int closeBtnDrawableId=android.R.drawable.btn_star_big_off;
+	private int launcherBtnSize=75;
 	/**
 	 * adding 4 quodrant details with view and view details as list 
 	 */
@@ -327,10 +330,13 @@ public class EazyView extends View implements OnTouchListener{
 	 * 
 	 * @param OpenDrawableId : resource id , to set drawable for opening view
 	 * @param closeDrawableId :resource id , to set drawable for closing view
+	 * @param launcherButtonSize : size of the button
 	 */
-	public void setLauncherBtnDrawable(int OpenDrawableId,int closeDrawableId){
+	public void setLauncherBtnDrawable(int OpenDrawableId,int closeDrawableId,int launcherButtonSize){
 		this.openBtnDrawableId=OpenDrawableId;
 		this.closeBtnDrawableId=closeDrawableId;
+		this.launcherBtnSize=launcherButtonSize;
+		
 	}
 	
 	/**
@@ -338,7 +344,7 @@ public class EazyView extends View implements OnTouchListener{
 	 */
 	public void attachEazyViewToActivity() {
 		AddViewToLayout mlayout=new AddViewToLayout(mActivity,this);
-		mButton=mlayout.addLayout(openBtnDrawableId,closeBtnDrawableId);
+		mButton=mlayout.addLayout(openBtnDrawableId,closeBtnDrawableId,launcherBtnSize);
 	}
 	
 	//-------------------------------------end of User usage api--------------------------------
@@ -735,6 +741,7 @@ public class EazyView extends View implements OnTouchListener{
 			mHolderViewPaint.setColor(locOptionView.getOptionHolderBackgroundColor());
 			canvas.drawCircle(holder1X, holder1Y,holderRadiusInner , mHolderViewPaint);
 			
+			
 			/**
 			 * calculation to image (icon) holder x and y
 			 */
@@ -751,6 +758,30 @@ public class EazyView extends View implements OnTouchListener{
 				canvas.drawBitmap(viewIcon, iconPosX, iconPosY, mBitmapIconPaint);
 				}
 			}
+			
+			/**
+			 * if image is null and text has some character then draw
+			 */
+			String textToBeDrawn=locOptionView.getText();
+			
+			if(locOptionView.getImageBitmap()==null && textToBeDrawn!=null && !textToBeDrawn.trim().replace(" ", "").equalsIgnoreCase("")){
+				Log.d(EazyViewUtil.TAG, "Eazyview TopHolder getImageBitmap null");;
+				/*
+				 * rect object for getting the paint bound heith adn width
+				 * when we use paint.getBound(); we pass rect object and returs rect object with proper bound of particular paint
+				 */
+				Rect textRect=new Rect();
+				
+				Paint paint=new Paint();
+				paint.setColor(locOptionView.getTextColor());
+				paint.setTextSize(locOptionView.getTextSize());				
+				paint.getTextBounds(""+locOptionView.getText(), 0,locOptionView.getText().toCharArray().length, textRect);
+				
+				int txtHeight=textRect.height();
+				int txtWidth=textRect.width();
+				canvas.drawText(""+locOptionView.getText(), holder1X-(txtWidth/2), holder1Y+(txtHeight/2), paint);
+			}
+			
 			viewDetailsList.add(viewDetail);
 			//skipping even seperators
 			i=i+2;
@@ -885,6 +916,29 @@ public class EazyView extends View implements OnTouchListener{
 				Bitmap viewIcon=getResizedBitmap(locOptionView.getImageBitmap(),(float)holderIconRadius*2, (float) (holderRadiusInner*0.75)*2);
 				canvas.drawBitmap(viewIcon, iconPosX, iconPosY, mBitmapIconPaint);
 				}
+			}
+			
+			/**
+			 * if image is null and text has some character then draw
+			 */
+			String textToBeDrawn=locOptionView.getText();
+			
+			if(locOptionView.getImageBitmap()==null && textToBeDrawn!=null && !textToBeDrawn.trim().replace(" ", "").equalsIgnoreCase("")){
+				Log.d(EazyViewUtil.TAG, "Eazyview TopHolder getImageBitmap null");;
+				/*
+				 * rect object for getting the paint bound heith adn width
+				 * when we use paint.getBound(); we pass rect object and returs rect object with proper bound of particular paint
+				 */
+				Rect textRect=new Rect();
+				
+				Paint paint=new Paint();
+				paint.setColor(locOptionView.getTextColor());
+				paint.setTextSize(locOptionView.getTextSize());				
+				paint.getTextBounds(""+locOptionView.getText(), 0,locOptionView.getText().toCharArray().length, textRect);
+				
+				int txtHeight=textRect.height();
+				int txtWidth=textRect.width();
+				canvas.drawText(""+locOptionView.getText(), holder1X-(txtWidth/2), holder1Y+(txtHeight/2), paint);
 			}
 			//Log.d(EazyViewUtil.TAG, "Eazyview Quodrant="+quodrantAngle+"_i="+i);;
 			if(viewDetailsList!=null){
@@ -1090,31 +1144,38 @@ public class EazyView extends View implements OnTouchListener{
 		int action=event.getAction();
 		
 		switch (action) {
+		case MotionEvent.ACTION_DOWN:
+			Log.d(EazyViewUtil.TAG, "touchEvent(DOWN) TouchEvent  isSwipeRight="+isSwipeRight+"_isSwipeLeft="+isSwipeLeft);;
+			startEventYPrev=event.getY();
+			startEventXPrev=event.getX();
+			break;
 		case MotionEvent.ACTION_MOVE:
 			//calculating right or left swipe
 			startEventYCurrent=event.getY();
 			startEventXCurrent=event.getX();
 		//	Log.d("pkhtags", "TouchEvent  startEventYCurrent="+startEventYCurrent+"_startEventYPrev="+startEventYPrev+"_Diff="+(startEventYCurrent-startEventYPrev));
-			if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev<startEventXCurrent)&& (startEventYPrev<startEventYCurrent)) && (startEventYCurrent-startEventYPrev)>70){
+			if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev<startEventXCurrent)&& (startEventYPrev<startEventYCurrent)) && (startEventYCurrent-startEventYPrev)>EazyViewUtil.BASIC_SWIPE_DISTANCE){
 				//swiperight
 				isSwipeRight=true;
 				isSwipeLeft=false;
 				
 				
-			}else if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev>startEventXCurrent)&& (startEventYPrev>startEventYCurrent))  && (startEventYPrev-startEventYCurrent)>70){
+			}else if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev>startEventXCurrent)&& (startEventYPrev>startEventYCurrent))  && (startEventYPrev-startEventYCurrent)>EazyViewUtil.BASIC_SWIPE_DISTANCE){
 				//swipeleft
 				isSwipeLeft=true;
 				isSwipeRight=false;
 								
-			}else if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev<startEventXCurrent)&& (startEventYPrev>startEventYCurrent))&& (startEventYPrev-startEventYCurrent)>70){
+			}else if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev<startEventXCurrent)&& (startEventYPrev>startEventYCurrent))&& (startEventYPrev-startEventYCurrent)>EazyViewUtil.BASIC_SWIPE_DISTANCE){
 				//View opening update
 				pViewStatus=ViewStatus.OPEN;
-			}else if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev>startEventXCurrent)&& (startEventYPrev<startEventYCurrent))&& (startEventYCurrent-startEventYPrev)>70){
+			}else if((startEventYPrev!=0 && startEventXPrev!=0) &&((startEventXPrev>startEventXCurrent)&& (startEventYPrev<startEventYCurrent))&& (startEventYCurrent-startEventYPrev)>EazyViewUtil.BASIC_SWIPE_DISTANCE){
 				//view close update
 				pViewStatus=ViewStatus.CLOSE;
 			}
-			startEventYPrev=startEventYCurrent;
-			startEventXPrev=startEventXCurrent;
+			Log.d(EazyViewUtil.TAG, "touchEvent(Move) TouchEvent  isSwipeRight="+isSwipeRight+"__isSwipeLeft="+isSwipeLeft);;
+			Log.e(EazyViewUtil.TAG,"touchEvent(Move)_startEventYPrev="+startEventYPrev+"_startEventYCurrent="+startEventYCurrent+"startEventXPrev="+startEventXPrev+"_startEventXCurrent="+startEventXCurrent);
+			Log.e(EazyViewUtil.TAG,"__________");
+			
 			invalidate();
 		
 			//end of calculating right or left swipe
@@ -1136,14 +1197,12 @@ public class EazyView extends View implements OnTouchListener{
 			movetoOtherPartOfView();
 			startEventYCurrent=0;
 			startEventYPrev=0;
-			Log.d(EazyViewUtil.TAG, "touchEvent(UP) TouchEvent  isSwipeRight="+isSwipeRight+"_isSwipeLeft="+isSwipeLeft);;
+			Log.d(EazyViewUtil.TAG, "touchEvent(UP--) TouchEvent  isSwipeRight="+isSwipeRight+"_isSwipeLeft="+isSwipeLeft);;
 			
 			invalidate();
 			
 			break;
-		case MotionEvent.ACTION_DOWN:
-					
-			break;
+		
 
 		default:
 			break;

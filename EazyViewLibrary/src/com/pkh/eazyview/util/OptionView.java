@@ -6,16 +6,30 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 
 public class OptionView {
+	/**
+	 * holder properties
+	 */
 	int mOptionHolderBorderColor=Color.GRAY;
 	int mOptionHolderBackgroundColor=Color.MAGENTA;
 	int mOptoinHolderId=-1;
 	Bitmap mViewImageBitmap=null;
+	/**
+	 * bmp properties
+	 */
 	QUODRANT mQuodrant=QUODRANT.DEFAULT;
 	Context mContext;
 	int alpha=180;
 	int borderWidth=10;
+	/**
+	 * text properties
+	 */
+	private int defTxtSize=70;
+	int textSize=100;
+	String text=null;
+	int textColor=Color.WHITE;
 	
 	private OptionView(){
 		
@@ -111,5 +125,61 @@ public class OptionView {
 		return mQuodrant;
 	}
 	
+	/**
+	 * <b>Note: Text should be a two character, so the letter will be added good.</b>
+	 * <br/>default character is NULL, 
+	 * <br/>returns empty charater if charcter is null
+	 * @param char
+	 */
+	public void setText(String stringWith2Char){
+		
+		this.text=stringWith2Char.length() <=3 ? stringWith2Char : stringWith2Char.substring(1, 3);
+	}
+	public String getText(){
+		if(text==null){
+			
+			return "";
+		}
+		return this.text;
+	}
+	
+
+	/**
+	 * <b>Note: TextSize should be a greater than 50 and less than 120 .</b>
+	 * <br/>default size  is 100, 
+	 * <br/>
+	 * @param int
+	 */
+	public void setTextSize(int size){
+		if(size<120){
+			if(text.length()<2){
+				this.textSize=size;
+			}else{
+				this.textSize=size<defTxtSize ? size:defTxtSize;
+			}
+		}
+	}
+	public int getTextSize(){
+		if(text.length()<2){
+			return this.textSize;
+		}else{
+			this.textSize=this.textSize<defTxtSize ? this.textSize:defTxtSize;
+			return this.textSize;
+		}
+		
+	}
+	/**
+	 * <b>Note: TextSize should be a greater than 50 and less than 150 .</b>
+	 * <br/>default size  is 100, 
+	 * <br/>
+	 * @param int
+	 */
+	public void setTextColor(int color){
+		this.textColor=color;
+	}
+	public int getTextColor(){
+		
+		return this.textColor;
+	}
 
 }

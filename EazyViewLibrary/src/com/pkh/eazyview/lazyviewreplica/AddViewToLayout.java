@@ -21,6 +21,7 @@ public class AddViewToLayout {
 	private Activity mActivity;
 	private EazyView mEazyView;
 	Button mLaucherBtn=null;
+	int launcherBtnSize=75;
 	FrameLayout parentLayout;
 	int openDrawable=android.R.drawable.btn_star_big_on;
 	int closeDrawable=android.R.drawable.btn_star_big_off;
@@ -38,10 +39,11 @@ public class AddViewToLayout {
 		
 		
 	}
-	public Button addLayout(int openBtnDrawableId,int closeBtnDrawableId) {
+	public Button addLayout(int openBtnDrawableId,int closeBtnDrawableId,int launcherButtonSize) {
 
 		openDrawable=openBtnDrawableId;
 		closeDrawable=closeBtnDrawableId;
+		launcherBtnSize=launcherButtonSize;
 		 parentLayout= (FrameLayout) (mActivity).getWindow().getDecorView().findViewById(android.R.id.content);
 		int childCount=parentLayout.getChildCount();
 	
@@ -65,8 +67,8 @@ public class AddViewToLayout {
 		mLaucherBtn.setBackgroundResource(openDrawable);
 
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-		            150,
-		            150);
+				launcherBtnSize,
+				launcherBtnSize);
 		params.gravity = Gravity.CENTER_HORIZONTAL|Gravity.LEFT|Gravity.BOTTOM;
 		mLaucherBtn.setLayoutParams(params);
 		

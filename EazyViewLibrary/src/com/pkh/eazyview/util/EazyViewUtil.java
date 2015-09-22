@@ -12,6 +12,7 @@ public class EazyViewUtil {
 	 *  
 	 */
 	public static  int VIEW_RADIUS=900;
+	public static int BASIC_SWIPE_DISTANCE=200;
 	/**
 	 * Full Circle Angle(0-360)
 	 */

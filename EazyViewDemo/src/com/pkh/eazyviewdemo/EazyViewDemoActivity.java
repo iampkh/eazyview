@@ -2,13 +2,8 @@ package com.pkh.eazyviewdemo;
 
 import java.util.ArrayList;
 
-import com.pkh.eazyview.lazyviewreplica.EazyView;
-import com.pkh.eazyview.lazyviewreplica.EazyViewListener;
-import com.pkh.eazyview.util.EazyViewUtil.QUODRANT;
-import com.pkh.eazyview.util.EazyViewUtil.ViewSize;
-import com.pkh.eazyview.util.OptionView;
-
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -21,8 +16,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.Toast;
 
-public class EazyViewDemoActivity extends FragmentActivity {
+import com.pkh.eazyview.lazyviewreplica.EazyView;
+import com.pkh.eazyview.lazyviewreplica.EazyViewListener;
+import com.pkh.eazyview.util.EazyViewUtil.QUODRANT;
+import com.pkh.eazyview.util.EazyViewUtil.ViewSize;
+import com.pkh.eazyview.util.OptionView;
 
+public class EazyViewDemoActivity extends FragmentActivity {
+	/**
+	 * creating id to the views
+	 */
+	 final int GNU_id=0;
+	 final int OpenSource_id=1;
+	 final int F_Droid_id=2;
+	 final int Freedom_id=3;
+	 final int SorryAd_id=4;
+	
 	/*
 	 * view pager object
 	 */
@@ -121,6 +130,47 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		
 	}
 	
+	/**
+	 * showing dialog while clicking the views
+	 */
+	AlertDialog mDialog;
+	
+	private void showOptionDialog(int idTitle){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getResources().getString(idTitle));
+		
+		builder.setPositiveButton("OK", null);
+		
+		
+		switch (idTitle) {
+		case R.string.gnu_title:
+			builder.setMessage(getResources().getString(R.string.gnu_message));
+			break;
+		case R.string.opensource_titile:
+			builder.setMessage(getResources().getString(R.string.opensource_message));
+			break;
+		case R.string.freedom_title:
+			builder.setMessage(getResources().getString(R.string.freedom_message));
+			break;
+		case R.string.fdroid_title:
+			builder.setMessage(getResources().getString(R.string.fdroid_message));
+			break;
+		case R.string.sorry_title:
+			builder.setMessage(getResources().getString(R.string.sorry_message));
+			break;
+
+		default:
+			break;
+		}
+		
+		mDialog = builder.create();
+		mDialog.show();
+	}
+	
+	/**
+	 * creating the option for the grid
+	 * @param eazyView
+	 */
 	private void creatingViewForEazyView(EazyView eazyView) {
 		ArrayList<OptionView> viewList=new ArrayList<OptionView>();
 		
@@ -146,7 +196,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		     * adding option to the view for text 
 		     */
 		    OptionView gnuOptions=new OptionView(getApplicationContext());
-		    gnuOptions.setViewId(Utility.GNU_id);
+		    gnuOptions.setViewId(GNU_id);
 		    gnuOptions.setText("GNU");
 		    gnuOptions.setTextColor(Color.GREEN);
 		    gnuOptions.setTextSize(50);
@@ -157,7 +207,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		     * adding option to the view for text 
 		     */
 		    OptionView openSourceOptions=new OptionView(getApplicationContext());
-		    openSourceOptions.setViewId(Utility.OpenSource_id);
+		    openSourceOptions.setViewId(OpenSource_id);
 		    openSourceOptions.setText("OS");
 		    openSourceOptions.setTextColor(Color.WHITE);
 		    openSourceOptions.setTextSize(50);
@@ -168,7 +218,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		     * adding option to the view for text 
 		     */
 		    OptionView freedomOptions=new OptionView(getApplicationContext());
-		    freedomOptions.setViewId(Utility.Freedom_id);
+		    freedomOptions.setViewId(Freedom_id);
 		    freedomOptions.setText("Fdm");
 		    freedomOptions.setTextColor(Color.YELLOW);
 		    freedomOptions.setTextSize(50);
@@ -179,7 +229,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		     * adding option to the view for text 
 		     */
 		    OptionView fdroidOptions=new OptionView(getApplicationContext());
-		    fdroidOptions.setViewId(Utility.F_Droid_id);
+		    fdroidOptions.setViewId(F_Droid_id);
 		    fdroidOptions.setText("FDr");
 		    fdroidOptions.setTextColor(Color.BLUE);
 		    fdroidOptions.setTextSize(50);
@@ -190,7 +240,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		     * adding option to the view for text 
 		     */
 		    OptionView sorryOptions=new OptionView(getApplicationContext());
-		    sorryOptions.setViewId(Utility.SorryAd_id);
+		    sorryOptions.setViewId(SorryAd_id);
 		    sorryOptions.setText("SRY");
 		    sorryOptions.setTextColor(Color.RED);
 		    sorryOptions.setTextSize(70);
@@ -225,6 +275,9 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		 */
 		
 		try {
+			/**
+			 *NOte: viewList size is less than the second parameter "ViewSize" all the views will be empty 
+			 */
 			eazyView.addViews(viewList, ViewSize.TWELVE);
 		} catch (Exception e) {
 			
@@ -242,9 +295,49 @@ public class EazyViewDemoActivity extends FragmentActivity {
 	    mEazyView=new EazyView(this, new EazyViewListener() {
 			
 			@Override
-			public void onclick(int arg0) {
-				// TODO Auto-generated method stub
-				
+			public void onclick(int id) {
+				switch (id) {
+				case R.drawable.home_icon:
+					if(isOnline()){
+						viewPager.setCurrentItem(0);
+						}else{
+							Toast.makeText(CONTEXT, "Please Turn on the Internet", 0).show();
+						}
+					break;
+				case R.drawable.github_icon:
+					if(isOnline()){
+						viewPager.setCurrentItem(2);
+						}else{
+							Toast.makeText(CONTEXT, "Please Turn on the Internet", 0).show();
+						}
+					break;
+				case R.drawable.wordpress_icon:
+					if(isOnline()){
+						viewPager.setCurrentItem(1);
+						}else{
+							Toast.makeText(CONTEXT, "Please Turn on the Internet", 0).show();
+						}
+					break;
+				case GNU_id:
+					showOptionDialog(R.string.gnu_title);
+					break;
+				case OpenSource_id:
+					showOptionDialog(R.string.opensource_titile);
+					break;
+				case F_Droid_id:
+					showOptionDialog(R.string.fdroid_title);
+					break;
+				case Freedom_id:
+					showOptionDialog(R.string.freedom_title);
+					break;
+				case SorryAd_id:
+					showOptionDialog(R.string.sorry_title);
+					break;
+
+				default:
+					break;
+				}
+
 			}
 			
 			@Override

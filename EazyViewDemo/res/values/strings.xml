@@ -4,5 +4,39 @@
     <string name="app_name">EazyViewDemo</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="gnu_title">GNU (FreeSoftware)</string>
+     <string name="gnu_message">
+   Note*: FreeSoftware = Freedom+Software \n
+   Freedom 0- Use the software for any purpose . \n\n
+   Freedom 1- Read the software\n \t and modify as you wish. \n\n
+   Freedom 2- Share the software \n \t to whoever you wish.(we will not file case for this).\n\n
+   Freedom 3- Share the modified software to whoever you wish with all the above FREEDOM
+   \n\n\t\t\t CopyLeft
+</string>
+    
+    <string name="opensource_titile">Open Source</string>
+    <string name="opensource_message">\n Open Source is the concept derived from GNU(FreeSoftware)</string>
+    
+    <string name="freedom_title">Freedom</string>
+     <string name="freedom_message">What is Freedom  and DigitalFreedom ? \n\n
+         \t Rights to do what you wish , without affecting the society is Freedom \n
+         \t Rights to use/share the software you purchased however you want without affecting society is DigitalFreedom \n
+         \n 
+         This software has the full freedom to use and share
+         \n\n*Note: Improvise the software ,if it is not good.
+         </string>
+    
+    <string name="fdroid_title">F-Droid</string>
+    <string name="fdroid_message">\n \t \t An alternate source for "Google-Play store" , where you can get softwares(applications)
+         with full access permission and without advertisements \n\n
+         It has the applications under (FOSS-Free/OpenSource Software) \n\n
+         You cannot find this app in play store, coz  it is a competetive to the PlayStore .
+         \n\n
+         *Note: VLC , 2048 ,FireFox ..etc all are under (FOSS) 
+          </string>
+    
+    <string name="sorry_title">Sorry</string>
+     <string name="sorry_message">\t\t Sorry for the Inconvenience while using the demo app,\nI ADDED ADVERTISEMENT WITH THE DEMO</string>
 
 </resources>

@@ -30,7 +30,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 	 final int OpenSource_id=1;
 	 final int F_Droid_id=2;
 	 final int Freedom_id=3;
-	 final int SorryAd_id=4;
+	 final int About_id=4;
 	
 	/*
 	 * view pager object
@@ -155,8 +155,8 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		case R.string.fdroid_title:
 			builder.setMessage(getResources().getString(R.string.fdroid_message));
 			break;
-		case R.string.sorry_title:
-			builder.setMessage(getResources().getString(R.string.sorry_message));
+		case R.string.about_title:
+			builder.setMessage(getResources().getString(R.string.about_message));
 			break;
 
 		default:
@@ -240,11 +240,11 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		     * adding option to the view for text 
 		     */
 		    OptionView sorryOptions=new OptionView(getApplicationContext());
-		    sorryOptions.setViewId(SorryAd_id);
-		    sorryOptions.setText("SRY");
-		    sorryOptions.setTextColor(Color.RED);
-		    sorryOptions.setTextSize(70);
-		    sorryOptions.setOptionHolderBackgroundColor(Color.BLACK);
+		    sorryOptions.setViewId(About_id);
+		    sorryOptions.setText("i");
+		    sorryOptions.setTextColor(Color.WHITE);
+		    sorryOptions.setTextSize(80);
+		    sorryOptions.setOptionHolderBackgroundColor(Color.BLUE);
 		    viewList.add(sorryOptions);
 		    
 		    
@@ -330,8 +330,8 @@ public class EazyViewDemoActivity extends FragmentActivity {
 				case Freedom_id:
 					showOptionDialog(R.string.freedom_title);
 					break;
-				case SorryAd_id:
-					showOptionDialog(R.string.sorry_title);
+				case About_id:
+					showOptionDialog(R.string.about_title);
 					break;
 
 				default:

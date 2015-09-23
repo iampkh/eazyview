@@ -31,7 +31,7 @@ public class SplashScreen extends ActionBarActivity {
 			}
 		};
 		
-		mHandler.postDelayed(mRunnable, 5000);
+		mHandler.postDelayed(mRunnable, 3000);
 	}
 
 

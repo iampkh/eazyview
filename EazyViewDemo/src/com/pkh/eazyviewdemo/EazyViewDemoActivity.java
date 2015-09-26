@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pkh.eazyview.lazyviewreplica.EazyView;
@@ -46,6 +50,12 @@ public class EazyViewDemoActivity extends FragmentActivity {
 	 */
 	static EazyView mEazyView;
 	static ConnectivityManager cm ;
+	
+	ImageView mHelpImage;
+	SharedPreferences preference;
+	private String prefName="eazyView";
+	private String IS_FIRST_VIEW_KEY="IS_FIRST_VIEW";
+	private boolean isFirstView=false;
 		       
 	/** Called when the activity is first created. */
 	@Override
@@ -54,6 +64,12 @@ public class EazyViewDemoActivity extends FragmentActivity {
 	    setContentView(R.layout.view_page_holder);
 	    CONTEXT=getApplicationContext();
 	    cm=  (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    
+	    /**
+         * inititaing the view helper
+         */
+	    mHelpImage=(ImageView) findViewById(R.id.helpTouch);
+        
 	    /*
 	     * initiating the pager
 	     */
@@ -61,7 +77,8 @@ public class EazyViewDemoActivity extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
-        
+       
+       
         viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override
@@ -100,6 +117,25 @@ public class EazyViewDemoActivity extends FragmentActivity {
         }
 	    
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		 /**
+         * initaitn preference for first touch(help view)
+         */
+        preference=getSharedPreferences(prefName,MODE_PRIVATE);
+        
+        isFirstView=preference.getBoolean(IS_FIRST_VIEW_KEY, true);
+        if(isFirstView){
+        	mHelpImage.setVisibility(ViewGroup.VISIBLE);
+        	Editor editor=preference.edit();
+        	editor.putBoolean(IS_FIRST_VIEW_KEY, false);
+        	editor.commit();
+        }
+	}
 	/**
 	 * static function to get callback for fragment
 	 * @param 
@@ -129,6 +165,19 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		}
 		
 	}
+	
+	/**
+	 * handling back button
+	 */
+	public void onBackPressed() {
+		int currentFragPos=viewPager.getCurrentItem();
+		if(currentFragPos!=0){
+			viewPager.setCurrentItem(0);
+			
+		}else{
+			finish();
+		}
+	};
 	
 	/**
 	 * showing dialog while clicking the views
@@ -177,18 +226,24 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		  OptionView homeOptions=new OptionView(getApplicationContext());
 		    homeOptions.setViewId(R.drawable.home_icon);
 		    homeOptions.setImage(R.drawable.home_icon);
+		    homeOptions.setOptionHolderBorderColor(Color.WHITE);
 		    homeOptions.setOptionHolderBackgroundColor(Color.YELLOW);
+		    homeOptions.setBorderWidth(5);
 		    viewList.add(homeOptions);
 		    
 		    OptionView wordpresOption=new OptionView(getApplicationContext());
 		    wordpresOption.setViewId(R.drawable.wordpress_icon);
 		    wordpresOption.setImage(R.drawable.wordpress_icon);
+		    wordpresOption.setOptionHolderBorderColor(Color.WHITE);;
+		    wordpresOption.setBorderWidth(5);
 		    wordpresOption.setOptionHolderBackgroundColor(Color.CYAN);
 		    viewList.add(wordpresOption);
 		    
 		    OptionView githubOption=new OptionView(getApplicationContext());
 		    githubOption.setViewId(R.drawable.github_icon);
 		    githubOption.setImage(R.drawable.github_icon);
+		    githubOption.setOptionHolderBorderColor(Color.WHITE);
+		    githubOption.setBorderWidth(5);
 		    githubOption.setOptionHolderBackgroundColor(Color.BLUE);
 		    viewList.add(githubOption);
 		
@@ -200,6 +255,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    gnuOptions.setText("GNU");
 		    gnuOptions.setTextColor(Color.GREEN);
 		    gnuOptions.setTextSize(50);
+		    gnuOptions.setOptionHolderBorderColor(Color.GREEN);
 		    gnuOptions.setOptionHolderBackgroundColor(Color.BLACK);
 		    viewList.add(gnuOptions);
 		    
@@ -211,6 +267,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    openSourceOptions.setText("OS");
 		    openSourceOptions.setTextColor(Color.WHITE);
 		    openSourceOptions.setTextSize(50);
+		    openSourceOptions.setOptionHolderBorderColor(Color.WHITE);
 		    openSourceOptions.setOptionHolderBackgroundColor(Color.BLUE);
 		    viewList.add(openSourceOptions);
 		    
@@ -222,6 +279,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    freedomOptions.setText("Fdm");
 		    freedomOptions.setTextColor(Color.YELLOW);
 		    freedomOptions.setTextSize(50);
+		    freedomOptions.setOptionHolderBorderColor(Color.RED);
 		    freedomOptions.setOptionHolderBackgroundColor(Color.DKGRAY);
 		    viewList.add(freedomOptions);
 		    
@@ -233,6 +291,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    fdroidOptions.setText("FDr");
 		    fdroidOptions.setTextColor(Color.BLUE);
 		    fdroidOptions.setTextSize(50);
+		    fdroidOptions.setOptionHolderBorderColor(Color.BLUE);
 		    fdroidOptions.setOptionHolderBackgroundColor(Color.WHITE);
 		    viewList.add(fdroidOptions);
 		    
@@ -244,6 +303,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    sorryOptions.setText("i");
 		    sorryOptions.setTextColor(Color.WHITE);
 		    sorryOptions.setTextSize(80);
+		    sorryOptions.setOptionHolderBorderColor(Color.WHITE);
 		    sorryOptions.setOptionHolderBackgroundColor(Color.BLUE);
 		    viewList.add(sorryOptions);
 		    
@@ -262,11 +322,21 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    for(int i=0;i<4;i++){
 			    OptionView simple=new OptionView(getApplicationContext());
 			    simple.setQuodrant(QUODRANT.TWO);
+			    simple.setOptionHolderBackgroundColor(Color.GRAY);
+			    if(i%2==0){
+			    	if(i==0){
+
+					    simple.setOptionHolderBackgroundColor(Color.BLUE);
+					    simple.setBorderWidth(0);
+			    	}
+			    	simple.setOptionHolderBorderColor(Color.BLUE);
+			    }else if(i%3==0){
+			    	simple.setOptionHolderBorderColor(Color.RED);
+			    }
 			    simple.setViewId(-1);
 			    simple.setText("DmY");
 			    simple.setTextColor(Color.WHITE);
 			    simple.setTextSize(60);
-			    simple.setOptionHolderBackgroundColor(Color.GRAY);
 			    viewList.add(simple);
 		    }
 
@@ -342,7 +412,16 @@ public class EazyViewDemoActivity extends FragmentActivity {
 			
 			@Override
 			public void onViewOpend() {
-				// TODO Auto-generated method stub
+				mHelpImage.setVisibility(ViewGroup.GONE);
+				 preference=getSharedPreferences(prefName,MODE_PRIVATE);
+			        
+			        isFirstView=preference.getBoolean(IS_FIRST_VIEW_KEY, true);
+			        if(isFirstView){
+			        	mHelpImage.setVisibility(ViewGroup.VISIBLE);
+			        	Editor editor=preference.edit();
+			        	editor.putBoolean(IS_FIRST_VIEW_KEY, false);
+			        	editor.commit();
+			        }
 				
 			}
 			

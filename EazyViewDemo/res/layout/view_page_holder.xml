@@ -9,4 +9,16 @@
     android:layout_height="match_parent">
 </android.support.v4.view.ViewPager>
 
+ <ImageView
+     android:id="@+id/helpTouch"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_alignParentBottom="true"
+     android:layout_alignParentLeft="true"
+     android:layout_marginBottom="26dp"
+     android:layout_marginLeft="28dp"
+     android:clickable="false"
+     android:src="@drawable/help_touch"
+     android:visibility="gone" />
+
 </RelativeLayout>

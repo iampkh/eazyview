@@ -6,6 +6,7 @@
     tools:context="com.pkh.eazyviewdemo.SplashScreen" >
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -18,8 +19,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_red_light"
             android:drawableLeft="@drawable/wordpress_icon"
-            android:padding="3dp"
             android:maxLines="2"
+            android:padding="3dp"
             android:text="EAZYVIEW TUTORIAL" />
 
         <Button
@@ -29,8 +30,8 @@
             android:layout_marginTop="5dp"
             android:background="@android:color/holo_red_light"
             android:drawableLeft="@drawable/github_icon"
-            android:padding="3dp"
             android:maxLines="2"
+            android:padding="3dp"
             android:text="EAZYVIEW 	SOURCE" />
 
         <Button
@@ -40,9 +41,11 @@
             android:layout_marginTop="5dp"
             android:background="@android:color/holo_red_light"
             android:drawableLeft="@drawable/ic_launcher"
-            android:padding="2dp"
             android:maxLines="2"
+            android:padding="2dp"
             android:text="LAUNCH EAZYVIEW" />
     </LinearLayout>
+
+   
 
 </RelativeLayout>

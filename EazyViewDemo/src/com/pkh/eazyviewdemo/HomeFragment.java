@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
@@ -28,9 +29,12 @@ public class HomeFragment extends Fragment implements OnClickListener{
 	         
 	        return rootView;
 	    }
+	 
+	
 
 	@Override
 	public void onClick(View v) {
 		EazyViewDemoActivity.OnButtonSelected(v.getId());
 	}
+	
 }

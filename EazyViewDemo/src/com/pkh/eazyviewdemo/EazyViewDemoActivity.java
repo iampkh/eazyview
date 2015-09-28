@@ -159,6 +159,11 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		case R.id.launchEazyView:
 			
 			mEazyView.openView();
+			if(isOnline()){
+				viewPager.setCurrentItem(3);
+				}else{
+					Toast.makeText(CONTEXT, "Please Turn on the Internet", 0).show();
+				}
 			break;
 		default:
 			break;
@@ -228,22 +233,22 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    homeOptions.setImage(R.drawable.home_icon);
 		    homeOptions.setOptionHolderBorderColor(Color.WHITE);
 		    homeOptions.setOptionHolderBackgroundColor(Color.YELLOW);
-		    homeOptions.setBorderWidth(5);
+		    homeOptions.setBorderWidth(0);
 		    viewList.add(homeOptions);
 		    
 		    OptionView wordpresOption=new OptionView(getApplicationContext());
 		    wordpresOption.setViewId(R.drawable.wordpress_icon);
 		    wordpresOption.setImage(R.drawable.wordpress_icon);
 		    wordpresOption.setOptionHolderBorderColor(Color.WHITE);;
-		    wordpresOption.setBorderWidth(5);
 		    wordpresOption.setOptionHolderBackgroundColor(Color.CYAN);
+		    wordpresOption.setBorderWidth(1f);
 		    viewList.add(wordpresOption);
 		    
 		    OptionView githubOption=new OptionView(getApplicationContext());
 		    githubOption.setViewId(R.drawable.github_icon);
 		    githubOption.setImage(R.drawable.github_icon);
 		    githubOption.setOptionHolderBorderColor(Color.WHITE);
-		    githubOption.setBorderWidth(5);
+		    githubOption.setBorderWidth(0.5f);
 		    githubOption.setOptionHolderBackgroundColor(Color.BLUE);
 		    viewList.add(githubOption);
 		
@@ -254,7 +259,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    gnuOptions.setViewId(GNU_id);
 		    gnuOptions.setText("GNU");
 		    gnuOptions.setTextColor(Color.GREEN);
-		    gnuOptions.setTextSize(50);
+		    gnuOptions.setTextSize(0.7f);
 		    gnuOptions.setOptionHolderBorderColor(Color.GREEN);
 		    gnuOptions.setOptionHolderBackgroundColor(Color.BLACK);
 		    viewList.add(gnuOptions);
@@ -266,7 +271,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    openSourceOptions.setViewId(OpenSource_id);
 		    openSourceOptions.setText("OS");
 		    openSourceOptions.setTextColor(Color.WHITE);
-		    openSourceOptions.setTextSize(50);
+		    openSourceOptions.setTextSize(0.8f);
 		    openSourceOptions.setOptionHolderBorderColor(Color.WHITE);
 		    openSourceOptions.setOptionHolderBackgroundColor(Color.BLUE);
 		    viewList.add(openSourceOptions);
@@ -278,8 +283,9 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    freedomOptions.setViewId(Freedom_id);
 		    freedomOptions.setText("Fdm");
 		    freedomOptions.setTextColor(Color.YELLOW);
-		    freedomOptions.setTextSize(50);
+		    freedomOptions.setTextSize(0.9f);
 		    freedomOptions.setOptionHolderBorderColor(Color.RED);
+		    freedomOptions.setBorderWidth(0.1f);
 		    freedomOptions.setOptionHolderBackgroundColor(Color.DKGRAY);
 		    viewList.add(freedomOptions);
 		    
@@ -290,7 +296,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    fdroidOptions.setViewId(F_Droid_id);
 		    fdroidOptions.setText("FDr");
 		    fdroidOptions.setTextColor(Color.BLUE);
-		    fdroidOptions.setTextSize(50);
+		    fdroidOptions.setTextSize(1);
 		    fdroidOptions.setOptionHolderBorderColor(Color.BLUE);
 		    fdroidOptions.setOptionHolderBackgroundColor(Color.WHITE);
 		    viewList.add(fdroidOptions);
@@ -302,7 +308,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 		    sorryOptions.setViewId(About_id);
 		    sorryOptions.setText("i");
 		    sorryOptions.setTextColor(Color.WHITE);
-		    sorryOptions.setTextSize(80);
+		    sorryOptions.setTextSize(1.5f);
 		    sorryOptions.setOptionHolderBorderColor(Color.WHITE);
 		    sorryOptions.setOptionHolderBackgroundColor(Color.BLUE);
 		    viewList.add(sorryOptions);
@@ -336,7 +342,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 			    simple.setViewId(-1);
 			    simple.setText("DmY");
 			    simple.setTextColor(Color.WHITE);
-			    simple.setTextSize(60);
+			    simple.setTextSize(1);
 			    viewList.add(simple);
 		    }
 
@@ -440,7 +446,7 @@ public class EazyViewDemoActivity extends FragmentActivity {
 	    /**
 	     * adding icon for launcher and size for the launcher
 	     */
-	    mEazyView.setLauncherBtnDrawable(R.drawable.setting_open	, R.drawable.setting_close , 100);
+	    mEazyView.setLauncherBtnDrawable(R.drawable.setting_open	, R.drawable.setting_close , 10);
 	    mEazyView.attachEazyViewToActivity();
 	}
     
@@ -485,7 +491,9 @@ class PagerAdapter extends FragmentPagerAdapter{
             // Github source code fragment activity
         	
         		return new GitHubFragment();
+        case 3:
         	
+        	    return new AdvFragment();
         	
         }
  
@@ -495,7 +503,7 @@ class PagerAdapter extends FragmentPagerAdapter{
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
-        return 3;
+        return 4;
     }
 	
 }

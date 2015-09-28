@@ -199,7 +199,7 @@ public class SplashScreen extends ActionBarActivity {
 			
 			@Override
 			public void onAnimationEnd(Animation arg0) {
-				mHandler.postDelayed(mRunnable, 500);
+				mHandler.postDelayed(mRunnable, 1000);
 				
 			}
 		});

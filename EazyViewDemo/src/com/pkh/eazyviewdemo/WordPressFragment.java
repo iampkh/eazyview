@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class WordPressFragment extends Fragment {
 	public static final String TUT_PART1="https://eazyviewtutorial.wordpress.com/2015/06/24/how-to-use-eazyview-library-in-a-androidproject/";
@@ -37,6 +39,11 @@ public class WordPressFragment extends Fragment {
 	            Bundle savedInstanceState) {
 	 
 	        View rootView = inflater.inflate(R.layout.webview_frag_wordpress, container, false);
+	        /**
+	         * adding advertisements
+	         */
+	        addAdvertisements(rootView);
+	        
 	         mWebView=(WebView) rootView.findViewById(R.id.webView1);
 	         mPartSwitchButton=(Button) rootView.findViewById(R.id.partSwitcher);
 	         mPartSwitchButton.setText(PART2);
@@ -63,5 +70,25 @@ public class WordPressFragment extends Fragment {
 	        return rootView;
 	    }
 	 
+	 /**
+	  * advertisment enabling
+	  * @param parentView
+	  */
+	 private void addAdvertisements(View parentView) {
+		//Locate the Banner Ad in activity_main.xml
+			AdView adView = (AdView) parentView.findViewById(R.id.adViewTutPge);
+			
+			// Request for Ads
+			AdRequest adRequest = new AdRequest.Builder()
+			
+			// Add a test device to show Test Ads
+			 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+			 .addTestDevice("")
+					.build();
+			
+			// Load ads into Banner Ads
+			adView.loadAd(adRequest);
+
+	}
 	 
 }

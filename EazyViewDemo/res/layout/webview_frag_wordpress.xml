@@ -1,9 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    
+     <com.google.android.gms.ads.AdView
+         xmlns:ads="http://schemas.android.com/apk/res-auto"       
+        android:id="@+id/adViewTutPge"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+         android:background="@android:color/darker_gray"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" 
+        ads:adSize="BANNER"/>
+     
 
     <WebView
+        android:background="@android:color/holo_blue_light"
         android:id="@+id/webView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

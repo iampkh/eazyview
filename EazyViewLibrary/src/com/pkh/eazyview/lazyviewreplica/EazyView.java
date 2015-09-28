@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Switch;
@@ -49,10 +50,10 @@ public class EazyView extends View implements OnTouchListener{
 	Context mContext;
 	Activity mActivity;
 	EazyViewListener mEazyViewClickListener;
-	private Paint canvasPaint=new Paint();
-	Paint mHolderViewPaint=new Paint();
-	Paint mBitmapIconPaint=new Paint();
-	Paint mHolderBorderPaint=new Paint();
+	private Paint canvasPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+	Paint mHolderViewPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+	Paint mBitmapIconPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+	Paint mHolderBorderPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
 	Button mButton;
 	/**
 	 * initRadius to animate the ARC Background
@@ -185,7 +186,7 @@ public class EazyView extends View implements OnTouchListener{
 	 */
 	private int openBtnDrawableId=android.R.drawable.btn_star_big_on;
 	private int closeBtnDrawableId=android.R.drawable.btn_star_big_off;
-	private int launcherBtnSize=75;
+	private float launcherBtnSize=LayoutParams.WRAP_CONTENT;
 	/**
 	 * adding 4 quodrant details with view and view details as list 
 	 */
@@ -330,9 +331,9 @@ public class EazyView extends View implements OnTouchListener{
 	 * 
 	 * @param OpenDrawableId : resource id , to set drawable for opening view
 	 * @param closeDrawableId :resource id , to set drawable for closing view
-	 * @param launcherButtonSize : size of the button
+	 * @param launcherButtonSize : size of the button or LayoutParam.WRAP_CONTENT
 	 */
-	public void setLauncherBtnDrawable(int OpenDrawableId,int closeDrawableId,int launcherButtonSize){
+	public void setLauncherBtnDrawable(int OpenDrawableId,int closeDrawableId,float launcherButtonSize){
 		this.openBtnDrawableId=OpenDrawableId;
 		this.closeBtnDrawableId=closeDrawableId;
 		this.launcherBtnSize=launcherButtonSize;
@@ -715,8 +716,10 @@ public class EazyView extends View implements OnTouchListener{
 			 */
 			mHolderBorderPaint.setColor(locOptionView.getOptionHolderBorderColor());
 			mHolderBorderPaint.setStyle(Style.STROKE);
-			mHolderBorderPaint.setStrokeWidth(locOptionView.getBorderWidth());
-			canvas.drawCircle(holder1X, holder1Y,holderRadius , mHolderBorderPaint);			
+			mHolderBorderPaint.setStrokeWidth(holderRadius*locOptionView.getBorderWidth());
+			if(locOptionView.getBorderWidth()!=0){ //draw border if it not zero
+				canvas.drawCircle(holder1X, holder1Y,holderRadius , mHolderBorderPaint);
+			}		
 			/**
 			 * circle for holder addinv details to library
 			 */
@@ -772,9 +775,11 @@ public class EazyView extends View implements OnTouchListener{
 				 */
 				Rect textRect=new Rect();
 				
-				Paint paint=new Paint();
-				paint.setColor(locOptionView.getTextColor());
-				paint.setTextSize(locOptionView.getTextSize());				
+				
+				Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);
+				paint.setColor(locOptionView.getTextColor());	
+				paint.setTextSize(holderIconRadius*locOptionView.getTextSize());
+				//as text is resized, we are updting rect bound
 				paint.getTextBounds(""+locOptionView.getText(), 0,locOptionView.getText().toCharArray().length, textRect);
 				
 				int txtHeight=textRect.height();
@@ -875,8 +880,10 @@ public class EazyView extends View implements OnTouchListener{
 			 */
 			mHolderBorderPaint.setColor(locOptionView.getOptionHolderBorderColor());
 			mHolderBorderPaint.setStyle(Style.STROKE);
-			mHolderBorderPaint.setStrokeWidth(locOptionView.getBorderWidth());
-			canvas.drawCircle(holder1X, holder1Y,holderRadius , mHolderBorderPaint);
+			mHolderBorderPaint.setStrokeWidth(holderRadius*locOptionView.getBorderWidth());
+			if(locOptionView.getBorderWidth()!=0){ //draw border if it not zero
+				canvas.drawCircle(holder1X, holder1Y,holderRadius , mHolderBorderPaint);
+			}
 			
 						
 			/**
@@ -931,9 +938,11 @@ public class EazyView extends View implements OnTouchListener{
 				 */
 				Rect textRect=new Rect();
 				
-				Paint paint=new Paint();
-				paint.setColor(locOptionView.getTextColor());
-				paint.setTextSize(locOptionView.getTextSize());				
+				
+				Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);
+				paint.setColor(locOptionView.getTextColor());	
+				paint.setTextSize(holderIconRadius*locOptionView.getTextSize());
+				//as text is resized, we are updting rect bound
 				paint.getTextBounds(""+locOptionView.getText(), 0,locOptionView.getText().toCharArray().length, textRect);
 				
 				int txtHeight=textRect.height();

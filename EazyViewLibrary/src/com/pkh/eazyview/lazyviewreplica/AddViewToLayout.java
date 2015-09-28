@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ public class AddViewToLayout {
 	private Activity mActivity;
 	private EazyView mEazyView;
 	Button mLaucherBtn=null;
-	int launcherBtnSize=75;
+	float launcherBtnSize=LayoutParams.WRAP_CONTENT;
 	FrameLayout parentLayout;
 	int openDrawable=android.R.drawable.btn_star_big_on;
 	int closeDrawable=android.R.drawable.btn_star_big_off;
@@ -39,11 +40,23 @@ public class AddViewToLayout {
 		
 		
 	}
-	public Button addLayout(int openBtnDrawableId,int closeBtnDrawableId,int launcherButtonSize) {
+	public Button addLayout(int openBtnDrawableId,int closeBtnDrawableId,float launcherButtonSize) {
 
+		WindowManager windowManager = (WindowManager) mContext
+                .getSystemService(Context.WINDOW_SERVICE);
+		Display display =windowManager.getDefaultDisplay();
+		Point size = EazyView.getDisplaySize(display);
+		
 		openDrawable=openBtnDrawableId;
 		closeDrawable=closeBtnDrawableId;
-		launcherBtnSize=launcherButtonSize;
+		if(launcherButtonSize!=0 && launcherButtonSize!=LayoutParams.WRAP_CONTENT){
+			if(size.x<size.y){
+				launcherBtnSize=size.x*launcherButtonSize/100;
+			}else{
+				launcherBtnSize=size.y*launcherButtonSize/100;
+			}
+			
+		}
 		 parentLayout= (FrameLayout) (mActivity).getWindow().getDecorView().findViewById(android.R.id.content);
 		int childCount=parentLayout.getChildCount();
 	
@@ -63,12 +76,12 @@ public class AddViewToLayout {
 	private View addAButton(final Context context) {
 		
 		//mLaucherBtn.setText("Iam a samplet text");
-
+		
 		mLaucherBtn.setBackgroundResource(openDrawable);
 
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-				launcherBtnSize,
-				launcherBtnSize);
+				(int)launcherBtnSize,
+				(int)launcherBtnSize);
 		params.gravity = Gravity.CENTER_HORIZONTAL|Gravity.LEFT|Gravity.BOTTOM;
 		mLaucherBtn.setLayoutParams(params);
 		

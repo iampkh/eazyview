@@ -22,12 +22,12 @@ public class OptionView {
 	QUODRANT mQuodrant=QUODRANT.DEFAULT;
 	Context mContext;
 	int alpha=180;
-	int borderWidth=10;
+	float borderWidth=0.1f;
 	/**
 	 * text properties
 	 */
 	private int defTxtSize=70;
-	int textSize=100;
+	float textSize=1;
 	String text=null;
 	int textColor=Color.WHITE;
 	
@@ -39,13 +39,13 @@ public class OptionView {
 	}
 	
 	/**
-	 * Default width is (10);
+	 * Default width is (1);
 	 * @param borderWid : border width of the option
 	 */
-	public void setBorderWidth(int borderWid){
-		this.borderWidth=borderWid;
+	public void setBorderWidth(float borderWid){
+		this.borderWidth=borderWid/10;
 	}
-	public int getBorderWidth(){
+	public float getBorderWidth(){
 		return this.borderWidth;
 	}
 	/**
@@ -146,26 +146,18 @@ public class OptionView {
 
 	/**
 	 * <b>Note: TextSize should be a greater than 50 and less than 120 .</b>
-	 * <br/>default size  is 100, 
+	 * <br/>default size is 1 range  is 0 - 1, 
 	 * <br/>
 	 * @param int
 	 */
-	public void setTextSize(int size){
-		if(size<120){
-			if(text.length()<2){
+	public void setTextSize(float size){
+				
 				this.textSize=size;
-			}else{
-				this.textSize=size<defTxtSize ? size:defTxtSize;
-			}
-		}
+		
 	}
-	public int getTextSize(){
-		if(text.length()<2){
-			return this.textSize;
-		}else{
-			this.textSize=this.textSize<defTxtSize ? this.textSize:defTxtSize;
-			return this.textSize;
-		}
+	public float getTextSize(){
+		
+			return this.textSize;		
 		
 	}
 	/**
